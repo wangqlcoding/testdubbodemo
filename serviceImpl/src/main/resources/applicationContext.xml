@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+
+    <!--扫描注解-->
+    <context:component-scan base-package="com.ai"/>
+    <!--使用dubbo 与spring无缝整合
+            找到注册中心，告诉她我是谁，我的端口是多少
+    -->
+
+    <!--配置别名 目的是在后台可以看到这个服务的别名 好区分到底是谁 这个参数可以随便写，最好是捡起明知其一-->
+    <dubbo:application name="serviceImpl"/>
+    <!--配置注册中心
+        address:注册中心的地址
+        protocal:注册中心的协议
+    -->
+    <dubbo:registry address="zookeeper://10.21.57.56:2181"/>
+
+    <!--
+        告诉注册中心我是谁
+        interfac代表的就是类型
+        ref代表发布的是哪个服务
+        timeout连接超时时间
+    -->
+    <dubbo:service interface="com.ai.testdubbo.TestService" ref="testServiceImpl" timeout="6000"/>
+
+    <!--
+     配置我的端口 ip在连接注册中心的时候，注册中心距知道了我们的ip
+     端口可以随便写，但是不可以被其他程序占用 一个dubbo对外发布的时候 必须独占一个端口
+    -->
+    <dubbo:protocol name="dubbo" port="9090"/>
+
+</beans>
