@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("testServiceImpl")
 public class TestServiceImpl implements TestService {
+
     @Override
     public String getData(String name) {
         return "你传递进来的name是" + name;
