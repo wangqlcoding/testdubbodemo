@@ -20,6 +20,7 @@ public class TestController {
     private TestService service;
 
     //zhushi-716-1
+    //test reset
 
     @ResponseBody
     @RequestMapping("/getData")
